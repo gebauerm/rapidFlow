@@ -1,7 +1,9 @@
+from pathlib import Path
 from setuptools import setup
+import os
 
-
-with open("../README.md", "r") as fh:
+path = os.path.join(Path(os.path.dirname(os.path.abspath(__file__))).parent, "README.md")
+with open(path, "r") as fh:
     long_description = fh.read()
 
 setup(
