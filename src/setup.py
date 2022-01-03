@@ -16,7 +16,7 @@ setup(
     author='Michael Gebauer',
     author_email='gebauerm23@gmail.com',
     url='https://github.com/gebauerm/rapidFlow',
-    download_url='https://github.com/gebauerm/rapidFlow/archive/refs/tags/v0.1.1-alpha.tar.gz',
+    download_url='https://github.com/gebauerm/rapidFlow/archive/refs/tags/v0.1.2-alpha.tar.gz',
     packages=find_packages(__file__),
     install_requires=[
         "optuna==2.9.1",
