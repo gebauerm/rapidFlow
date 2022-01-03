@@ -15,7 +15,7 @@ modified, it is incorporated into rapidFlow to provide richer evaluation and eas
 
 1. From Pip
 Install package with: \
-    ``
+    `pip install rapidflow`
 
 2. With cloned repository
 Install package with:
