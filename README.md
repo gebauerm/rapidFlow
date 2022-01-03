@@ -36,7 +36,7 @@ Feel free to contribute. If you use this repository please cite with:
         @misc{rapidFlow_geb,
         author = {Gebauer, Michael},
         title = {rapidFlow},
-        year = {2021},
+        year = {2022},
         publisher = {GitHub},
         journal = {GitHub repository},
         howpublished = {\url{https://github.com/gebauerm/model_storage}},

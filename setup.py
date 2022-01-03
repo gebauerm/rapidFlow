@@ -1,35 +1,30 @@
-from pathlib import Path
 from setuptools import find_packages, setup
-import os
 
-path = os.path.join(Path(os.path.dirname(os.path.abspath(__file__))), "README.md")
-with open(path, "r") as fh:
-    long_description = fh.read()
+
+URL = "https://github.com/gebauerm/rapidFlow"
+__version__ = "0.1.4"
+
+install_requires = [
+        "optuna==2.9.1",
+        "click==8.0.1", "scikit-learn==0.24.2", "scipy==1.7.0", "networkx==2.5.1", "psycopg2-binary",
+        "docker==5.0.3", "pandas==1.3.5", "torch", "tqdm==4.62.3"],
+
+test_require = ["pytest==6.2.5"]
+
 
 setup(
     name='rapidflow',
-    version='0.1.3',
+    version=__version__,
     description='rapidFlow - A framework to perform micro experimentation fast with easy scaling.',
-    long_description=long_description,
-    long_description_content_type='text/markdown',
     license='MIT',
     author='Michael Gebauer',
     author_email='gebauerm23@gmail.com',
     url='https://github.com/gebauerm/rapidFlow',
-    download_url='https://github.com/gebauerm/rapidFlow/archive/refs/tags/v0.1.3-alpha.tar.gz',
-    package_dir={"rapidflow": "src"},
+    download_url=f'{URL}/archive/{__version__}.tar.gz',
     packages=find_packages(),
-    install_requires=[
-        "optuna==2.9.1",
-        "click==8.0.1", "scikit-learn==0.24.2", "scipy==1.7.0", "networkx==2.5.1", "psycopg2-binary",
-        "docker==5.0.3", "pytest==6.2.5", "pandas==1.3.5", "torch", "tqdm==4.62.3"],
+    install_requires=install_requires,
+    extras_require={"test": test_require},
     dependency_links=[""],
     python_requires=">=3.7",
-    classifiers=[
-        'Development Status :: 3 - Alpha',
-        'Intended Audience :: Developers',
-        'Topic :: Software Development :: Build Tools',
-        'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3',
-    ]
+    include_package_data=True,
 )
