@@ -19,6 +19,7 @@ class MLPObjective(Objective):
         self.test_loader = test_loader
 
     def train(self, trial=None):
+        # for optuna usage
         hyperparameters = dict(
             input_size=20,
             learning_rate=trial.suggest_float("learning_rate", 1e-3, 0.1, log=True),
@@ -28,7 +29,9 @@ class MLPObjective(Objective):
                 for idx in range(trial.suggest_int("n_layers", 1, 3))],
             output_size=1
         )
+
         metrics_handler = MetricsHandler()
+        # model setup
         model = MLP(**hyperparameters)
         self.track_model(model, hyperparameters)
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -78,6 +81,7 @@ class MLPObjective(Objective):
 
 
 if __name__ == "__main__":
+    # random dataset
     x, y = make_classification(n_samples=2000, n_features=20, n_classes=2)
     x_train, x_test, y_train, y_test = train_test_split(
         torch.from_numpy(x).to(torch.float32), torch.from_numpy(y).to(torch.float32), test_size=.2)
@@ -88,6 +92,7 @@ if __name__ == "__main__":
     train_loader = DataLoader(train_dataset, batch_size=50)
     val_loader = DataLoader(val_dataset, batch_size=50)
     test_loader = DataLoader(test_dataset, batch_size=50)
+    # setting up an experiment
     experiment = Experiment(
         experiment_path=os.path.abspath(os.path.dirname(__file__)))
     experiment.add_objective(MLPObjective, args=[train_loader, val_loader, test_loader])

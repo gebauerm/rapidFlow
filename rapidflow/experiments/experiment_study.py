@@ -9,6 +9,17 @@ from rapidflow.utils.experiment_logger import logger
 class ExperimentStudy:
 
     def __init__(self, study_name, objective_cls, objective_args, trials, num_processes, experiment_path) -> None:
+        """Performs optunas parallelization among CPUs.
+        For more: https://optuna.readthedocs.io/en/stable/tutorial/10_key_features/004_distributed.html
+
+        Args:
+            study_name ([type]): [description]
+            objective_cls ([type]): [description]
+            objective_args ([type]): [description]
+            trials ([type]): [description]
+            num_processes ([type]): [description]
+            experiment_path ([type]): [description]
+        """
         self.storage_string = "postgresql://root:1234@localhost:5432/optuna_study"
         self.study_name = study_name
         self.objective_cls = objective_cls

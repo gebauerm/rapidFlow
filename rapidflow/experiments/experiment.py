@@ -10,6 +10,25 @@ from rapidflow.utils.experiment_logger import logger
 
 
 class Experiment:
+    """
+    An Experiment Class provides multi-process execution and hyperparameter optimization, if needed.
+    It is build upon optuna and simplifies some things that are expected by optuna.
+    An experiment creates a folder and runs your objective on a test set.
+
+    The experiment is performed k-times as metrics from the model tasks
+    (accuracy, f1-measure etc.) are random numbers and need basic confidence intervals, which are
+    currently provided by the standard deviation of every k run.
+    A trial sets the number of runs per hyperparameter setting that is randomly generated.
+    Meaning that if:
+        k = 2
+        trials = 50
+    there will be trained and evaluated 100 models on the train and validation set. Afterwards the model
+    which performed the best on the validation set is saved and evaluated on the test set.
+
+    The number of processes sets the number of CPU cores used. It is expected that CUDA manages GPU
+    workload distribution per CPU core. Thus one GPU per CPU-core as nothing other is defined in the
+    objective.
+    """
     def __init__(
             self, title=None, experiment_path=None, model_name=None,) -> None:
         if title:
@@ -40,7 +59,17 @@ class Experiment:
         return experiment_path
 
     def _run(self, idx, trials, num_processes):
+        """Starts an experiment study. An experiment study manages parallelization. The best model is 
+        evaluated herin and saved as its results as well.
 
+        Args:
+            idx ([type]): [description]
+            trials ([type]): [description]
+            num_processes ([type]): [description]
+
+        Returns:
+            [type]: [description]
+        """
         self.experiment_study = ExperimentStudy(
             self.title, self.objective_cls, self.objective_args, trials, num_processes, self.experiment_path)
         best_trial = self.experiment_study.run()
@@ -49,6 +78,14 @@ class Experiment:
         return test_result
 
     def run(self, k, trials, num_processes=None):
+        """Starts the experiment. and serves as a wrapper. After each finished run the best model is evaluated
+        on the test set.
+
+        Args:
+            k ([type]): number of repitions of trials
+            trials ([type]): number of randomly generated hyperparameter settings used per training
+            num_processes ([type], optional): [description]. Used CPU cores
+        """
         logger.info(20*"-" + " Starting Experiment!" + 20*"-")
         set_start_method("spawn")
         start = timer()
@@ -64,6 +101,15 @@ class Experiment:
         logger.info(20*"-" + f" Experiment finished - Elapsed Time: {elapsed_time} " + 20*"-")
 
     def evaluate(self, best_trial):
+        """
+        Evalutes the best performing model from the validation set on the test set.
+
+        Args:
+            best_trial ([type]): [description]
+
+        Returns:
+            [type]: [description]
+        """
         if self.objective_cls:
             logger.info("Starting Evaluation...")
             objective = self.objective_cls(*self.objective_args)
