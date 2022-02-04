@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 
 URL = "https://github.com/gebauerm/rapidFlow"
-__version__ = "0.1.5"
+__version__ = "0.1.6"
 
 install_requires = [
         "optuna==2.9.1",
