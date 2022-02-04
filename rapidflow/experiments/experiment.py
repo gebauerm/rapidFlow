@@ -42,8 +42,8 @@ class Experiment:
 
         self.metrics_handler = MetricsHandler()
         self.study_result_saver = StudyResultSaver(self.experiment_path)
-        self.objective_func = None
         self.objective_args = None
+        self.objective_cls = None
 
     def create_experiment_folder(
             self, experiment_file_path, model_name, overwrite=True):
@@ -58,7 +58,7 @@ class Experiment:
         os.mkdir(experiment_path)
         return experiment_path
 
-    def _run(self, idx, trials, num_processes):
+    def _run(self, idx):
         """Starts an experiment study. An experiment study manages parallelization. The best model is
         evaluated herin and saved as its results as well.
 
@@ -91,7 +91,7 @@ class Experiment:
             self.title, self.objective_cls, self.objective_args, trials, num_processes, self.experiment_path)
         for idx in range(k):
             logger.info(f"Starting run for k={idx+1}")
-            test_result = self._run(idx, trials, num_processes)
+            test_result = self._run(idx)
             test_results.append(test_result)
         averaged_test_results = self.metrics_handler.average_results(test_results)
         self.study_result_saver.save_study_metrics(
