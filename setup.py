@@ -2,14 +2,14 @@ from setuptools import find_packages, setup
 
 
 URL = "https://github.com/gebauerm/rapidFlow"
-__version__ = "0.1.6"
+__version__ = "0.1.7"
 
 install_requires = [
         "optuna>=2.9.1",
         "click>=8.0.1", "scikit-learn", "scipy", "networkx>=2.5.1", "psycopg2-binary", "docker>=5.0.3",
         "pandas", "tqdm>=4.62.3"],
 
-test_require = ["pytest==6.2.5"]
+test_require = ["pytest>=6.2.5"]
 
 
 setup(
