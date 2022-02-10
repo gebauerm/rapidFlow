@@ -2,9 +2,9 @@ import optuna
 import docker
 import time
 import torch
-from multiprocessing import current_process, Queue, Process
 from rapidflow.utils.experiment_logger import logger
-
+import multiprocessing as mp
+ctx = mp.get_context("spawn")
 
 class ExperimentStudy:
 
@@ -30,7 +30,7 @@ class ExperimentStudy:
         self.available_gpu_idxs = [i for i in range(torch.cuda.device_count())]  # TODO: GPU management necessary?
 
     def _start_postgres_db(self):
-        if current_process().name == "MainProcess":
+        if ctx.current_process().name == "MainProcess":
             self.client = docker.from_env()
             self.client.containers.run(
                 "postgres:14.1", detach=True,
@@ -44,7 +44,7 @@ class ExperimentStudy:
             logger.info("DB-Container Running")
 
     def _shutdown_postgres_db(self):
-        if current_process().name == "MainProcess":
+        if ctx.current_process().name == "MainProcess":
             container = self.client.containers.get("postgres")
             container.stop()
 
@@ -59,7 +59,7 @@ class ExperimentStudy:
         self._multi_process_run(trials, num_processes, study_name, storage_string, objective)
 
     def _multi_process_run(self, trials, num_processes, study_name, storage_string, objective):
-        queue = Queue()
+        queue = ctx.Queue()
         for num_process_trial in self._split_trials(trials, num_processes):
             queue.put(num_process_trial)
 
@@ -121,7 +121,7 @@ class ExperimentStudy:
         return best_trial
 
 
-class ExperimentStudyProcess(Process):
+class ExperimentStudyProcess(ctx.Process):
 
     def __init__(self, queue, study_name, storage_string, objective):
         super().__init__()

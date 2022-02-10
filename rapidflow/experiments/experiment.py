@@ -42,8 +42,8 @@ class Experiment:
 
         self.metrics_handler = MetricsHandler()
         self.study_result_saver = StudyResultSaver(self.experiment_path)
-        self.objective_func = None
         self.objective_args = None
+        self.objective_cls = None
 
     def create_experiment_folder(
             self, experiment_file_path, model_name, overwrite=True):
@@ -58,8 +58,8 @@ class Experiment:
         os.mkdir(experiment_path)
         return experiment_path
 
-    def _run(self, idx, trials, num_processes):
-        """Starts an experiment study. An experiment study manages parallelization. The best model is 
+    def _run(self, idx):
+        """Starts an experiment study. An experiment study manages parallelization. The best model is
         evaluated herin and saved as its results as well.
 
         Args:
@@ -70,8 +70,6 @@ class Experiment:
         Returns:
             [type]: [description]
         """
-        self.experiment_study = ExperimentStudy(
-            self.title, self.objective_cls, self.objective_args, trials, num_processes, self.experiment_path)
         best_trial = self.experiment_study.run()
         test_result, objective = self.evaluate(best_trial)
         self.study_result_saver.save_study_results(idx, test_result, objective)
@@ -87,12 +85,13 @@ class Experiment:
             num_processes ([type], optional): [description]. Used CPU cores
         """
         logger.info(20*"-" + " Starting Experiment!" + 20*"-")
-        set_start_method("spawn")
         start = timer()
         test_results = []
+        self.experiment_study = ExperimentStudy(
+            self.title, self.objective_cls, self.objective_args, trials, num_processes, self.experiment_path)
         for idx in range(k):
-            logger.info(f"Starting run for k={idx}")
-            test_result = self._run(idx, trials, num_processes)
+            logger.info(f"Starting run for k={idx+1}")
+            test_result = self._run(idx)
             test_results.append(test_result)
         averaged_test_results = self.metrics_handler.average_results(test_results)
         self.study_result_saver.save_study_metrics(
