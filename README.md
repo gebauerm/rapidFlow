@@ -13,6 +13,8 @@ modified, it is incorporated into rapidFlow to provide richer evaluation and eas
 
 ## Install
 
+rapidFlow is build upon Pytorch, so make sure you have PyTorch installed.
+
 1. From Pip
 Install package with: \
     `pip install rapidflow`
