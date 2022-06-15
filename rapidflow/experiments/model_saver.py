@@ -1,5 +1,5 @@
 import os
-
+from abc import ABC, abstractmethod
 import torch
 import sklearn
 from joblib import dump
@@ -27,10 +27,10 @@ class ModelSaver:
             print(Warning("You have not set a strategy! Please call set_strategy() first!"))
 
 
-class SavingStrategy:
-    @staticmethod
+class SavingStrategy(ABC):
+    @abstractmethod
     def execute(model, title, path):
-        raise NotImplementedError
+        pass
 
 
 class TorchStrategy(SavingStrategy):
