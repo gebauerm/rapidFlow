@@ -34,16 +34,15 @@ jobs:
         pip install -e .["test"]
     - name: Test with pytest
       run: |
-        pytest --junitxml=test/junit/test_report-${{ matrix.python-version }}.xml --cov-report=xml
+        pytest --junitxml=test/junit/test_report-${{ matrix.python-version }}.xml --cov-report=xml:test/junit/cov-${{ matrix.python-version }}.xml --cov=rapidflow
     - name: Upload Test Report
       uses: actions/upload-artifact@v4
       with:
         name: test_report-${{ matrix.python-version }}.xml
         path: test/junit/test_report-${{ matrix.python-version }}.xml
     - name: Show Test Report
-      uses: dorny/test-reporter@v1
+      uses: xportation/junit-coverage-report@main
       with:
-        name: Pytest Report
-        artifact: test_report-${{ matrix.python-version }}.xml
-        path: test_report-${{ matrix.python-version }}.xml
-        reporter: jest-junit
+        junit-path: test/junit/test_report-${{ matrix.python-version }}.xml
+        coverage-path: test/junit/cov-${{ matrix.python-version }}.xml
+
