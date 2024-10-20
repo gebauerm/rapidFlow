@@ -51,9 +51,6 @@ def test_experiment_cpu(generate_test_data):
     shutil.rmtree(result_path)
 
 
-def test_failing():
-    assert 1 == 0
-
 
 if __name__ == "__main__":
     import pytest as pt
