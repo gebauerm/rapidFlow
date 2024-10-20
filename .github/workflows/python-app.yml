@@ -11,6 +11,8 @@ on:
 
 permissions:
   contents: read
+  checks: write
+  pull-requests: write # only required if `comment: true` was enabled
 
 jobs:
   test-package:
