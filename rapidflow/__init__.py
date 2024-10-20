@@ -7,7 +7,7 @@ __version__ = "0.1.7"
 install_requires = [
         "optuna>=2.9.1",
         "click>=8.0.1", "scikit-learn", "scipy", "networkx>=2.5.1", "psycopg2-binary", "docker>=5.0.3",
-        "pandas", "tqdm>=4.62.3", "torch==2.1.0"],
+        "pandas", "tqdm>=4.62.3"],
 
 test_require = ["pytest==7.1.2", "pytest-cov==3.0.0"]
 
