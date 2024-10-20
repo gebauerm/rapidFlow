@@ -51,7 +51,6 @@ def test_experiment_cpu(generate_test_data):
     shutil.rmtree(result_path)
 
 
-
 if __name__ == "__main__":
     import pytest as pt
     pt.main()
