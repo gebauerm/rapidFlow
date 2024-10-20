@@ -13,20 +13,26 @@ permissions:
   contents: read
 
 jobs:
-  build:
-
+  test-package:
     runs-on: ubuntu-latest
-
+    strategy:
+        matrix:
+            python-version: ["3.7", "3.9", "3.10"]
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python 3.10
+    - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
-        python-version: "3.10"
+        python-version: ${{ matrix.python-version }}
     - name: Install package
       run: |
         python -m pip install --upgrade pip
         pip install .["test"]
     - name: Test with pytest
       run: |
-        pytest
+        pytest --junitxml=./test_report-${{ matrix.python-version }}.xml --cov-report=xml
+    - name: Upload test artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: test_report-${{ matrix.python-version }}.xml
+        path: test/junit/test_report-${{ matrix.python-version }}.xml

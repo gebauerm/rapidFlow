@@ -1,29 +1,19 @@
 from setuptools import find_packages, setup
-
-
-URL = "https://github.com/gebauerm/rapidFlow"
-__version__ = "0.1.7"
-
-install_requires = [
-        "optuna>=2.9.1",
-        "click>=8.0.1", "scikit-learn", "scipy", "networkx>=2.5.1", "psycopg2-binary", "docker>=5.0.3",
-        "pandas", "tqdm>=4.62.3"],
-
-test_require = ["pytest>=6.2.5"]
+import rapidflow as package
 
 
 setup(
     name='rapidflow',
-    version=__version__,
-    description='rapidFlow - A framework to perform micro experimentation fast with easy scaling.',
+    version=package.__version__,
+    description=package.long_description,
     license='MIT',
     author='Michael Gebauer',
     author_email='gebauerm23@gmail.com',
     url='https://github.com/gebauerm/rapidFlow',
-    download_url=f'{URL}/archive/{__version__}.tar.gz',
+    download_url=f'{package.URL}/archive/{package.__version__}.tar.gz',
     packages=find_packages(),
-    install_requires=install_requires,
-    extras_require={"test": test_require},
+    install_requires=package.install_requires,
+    extras_require={"test": package.test_require},
     dependency_links=[""],
     python_requires=">=3.7",
     include_package_data=True,
