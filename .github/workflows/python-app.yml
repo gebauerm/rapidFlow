@@ -26,7 +26,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     # TODO: pytorch install has to be done in an extra github job: see pytorch_geometric for an example
     - name: Install torch
-      run: /
+      run:
         pip3 install torch==1.11.0 torchvision==0.12.0
     - name: Install package
       run: |
