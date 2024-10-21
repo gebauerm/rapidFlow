@@ -45,6 +45,14 @@ This way we maintain:
 
 more to come!
 
+## Pipelines
+
+PR:
+* deplyos into develop and performs integration tests
+    * 2 PRs are created at the same time --> their tests and deployment is scheduled over Runners in github or jenkins
+    * 1 PR is merged --> if there is a dependency a merge conflict arises, which gets reslved by a new commit in the 2nd PR --> triggers pipeline
+
+
 # TODO:
 
 * move experiment library to another repo
