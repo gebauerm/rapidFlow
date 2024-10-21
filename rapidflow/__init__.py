@@ -2,7 +2,7 @@ from pathlib import Path
 import os
 
 URL = "https://github.com/gebauerm/rapidFlow"
-__version__ = "0.1.8b"
+__version__ = "0.1.8c"
 
 install_requires = [
         "optuna>=2.9.1",
