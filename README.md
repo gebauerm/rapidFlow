@@ -24,6 +24,27 @@ Install package with:
 \
     `pip install -e /src`
 
+# Collaboration
+
+|Branche|Purpose|
+|-------|-------|
+|main|production state|
+|feature| a new feautre|
+|hotfix|hotfix as there are no bugfixes as everything is created from master|
+
+The desired workflow is [github flow](https://githubflow.github.io/).
+Meaning that:
+    * we can deploy from master at any time
+    * nothing gets deployed without a PR and its review
+    * we have no releases or release branches
+
+This way we maintain:
+    * fast responses to features or bugs and continouus delivery
+    * easy workflow
+    * fast developer feedback
+
+more to come!
+
 # TODO:
 
 * move experiment library to another repo
